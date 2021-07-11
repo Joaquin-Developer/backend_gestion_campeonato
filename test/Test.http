@@ -1,0 +1,14 @@
+
+POST http://localhost:5000/administration/login
+Content-Type: application/json
+
+{
+    "username": "root",
+    "passw": "jparrilla"
+}
+
+
+
+
+
+

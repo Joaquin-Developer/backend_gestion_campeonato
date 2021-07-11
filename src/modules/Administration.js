@@ -19,4 +19,4 @@ async function queryLogin(username) {
 }
 
 
-module.exports = { login, queryLogin };
+module.exports = { queryLogin };

@@ -1,6 +1,6 @@
 const { Router } = require("express")
 const router = Router()
-// const controller = require("../controllers/administration.controller")
+const { queryLogin } = require("../modules/Administration")
 const jwt = require("jsonwebtoken")
 
 const tokenAuthentication = (req, res, next) => {
@@ -10,10 +10,17 @@ const tokenAuthentication = (req, res, next) => {
         return res.status(401).json({ status: false, message: "Missing authorization" })
     }
     const token = auth.split(" ")[1]
-    jwt.verify(token, "loginkey")
+    try {
+        const data = jwt.verify(token, "logkey")
+        req.userId = data.id
+        next()
+    } catch (error) {
+        res.status(401).json({ status: false, message: "Incorrect authorization" })
+    }
+    
 }
 
-const login = async (req, res) => {
+const login = async (username, password) => {
     try {
         const data = JSON.parse(await queryLogin(username, password))
 
@@ -24,7 +31,7 @@ const login = async (req, res) => {
             return { message: "Incorrect password" }
         } else {
             // valid login:
-            const token = jwt.sign({ id: data[0].id}, "loginkey")
+            const token = jwt.sign({ id: data[0].id}, "logkey")
             return { token }
         }
     } catch (error) {
@@ -33,8 +40,8 @@ const login = async (req, res) => {
 }
 
 router.post("/login", async (req, res) => {
-    const { user, passw } = req.body
-    const {token, message } = await login(user, passw)
+    const { username, passw } = req.body
+    const {token, message } = await login(username, passw)
 
     if (!token) {
         res.status(401).send({ status: false, message: message })
