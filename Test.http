@@ -1,0 +1,7 @@
+POST http://localhost:5000/administration/login
+content-type: application/json
+
+{
+    "user": "root",
+    "passw": ""
+}

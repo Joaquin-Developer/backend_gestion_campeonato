@@ -10,16 +10,31 @@ const connection = mysql.createConnection({
 
 function connect() {
     connection.connect(error => {
-        if (error) throw error;
+        if (error) return error
         console.log("MySQL Database connected!")
     })
 }
 
 function disconnect() {
     connection.end(error => {
-        if (error) throw error
+        if (error) return error
         console.log("DB connection end")
     })
 }
 
-module.exports = { connection, connect, disconnect }
+function getJsonError(error) {
+    console.log(`Error code: ${error.code}, Error errno: ${error.errno}, fatal: ${error.fatal}`)
+
+    if (error.code.toUpperCase() === "ECONNREFUSED") {
+        return ({ error: true, message: "Internal error. Could not connect to the database" })
+    }
+    if (error.code.toUpperCase() === "PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR") {
+        return { error: true, message: "Internal Error. Could not query the database" }
+    }
+    // add more controllers ...
+    return { error: true, message: error }
+}
+
+connect()
+
+module.exports = { connection, connect, disconnect, getJsonError }

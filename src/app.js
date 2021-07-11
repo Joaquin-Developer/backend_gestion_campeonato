@@ -13,6 +13,7 @@ app.use(express.json()) // read json
 app.use(express.urlencoded({ extended: false }))    // read html forms
 
 // routes:
+app.use("/administration", require("./routes/administration.routes"))
 app.use("/api/matches", require("./routes/matches.routes"))
 app.use("/api/teams", require("./routes/teams.routes"))
 app.use("/api/series", require("./routes/series.routes"))

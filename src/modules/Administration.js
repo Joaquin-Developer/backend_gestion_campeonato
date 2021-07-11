@@ -1,15 +1,14 @@
-const matches = {}
 const { connect, connection, disconnect } = require("../database")
 
-matches.getAll = () => {
+async function queryLogin(username) {
     try {
         // connect()
         const promise = new Promise((resolve, reject) => {
-            connection.query("select * from Game", (error, rows, fields) => {
+            const query = "select * from User where username = ?" /* and passw = ?" */
+
+            connection.query(query, [username /*, password*/], (error, rows, fields) => {
                 if (error) return reject(error)
-                // res = Object.values(JSON.parse(JSON.stringify(result)));
-                return resolve(rows)
-    
+                return resolve(JSON.stringify(rows))
             })
         })
         // disconnect()
@@ -17,8 +16,7 @@ matches.getAll = () => {
     } catch (error) {
         return error
     }
-    
 }
 
 
-module.exports = matches
+module.exports = { login, queryLogin };
