@@ -1,3 +1,8 @@
+create table TournamentData(
+    IdTournament int unsigned auto_increment,
+    NameTournament varchar(150) not null,
+    primary key(IdTournament)
+);
 
 create table Team(
     IdTeam int unsigned auto_increment,
@@ -67,3 +72,7 @@ create table Game_FinalRound(
     foreign key(IdFinalRound) references FinalRound(IdFinalRound),
     foreign key(IdGame) references Game(IdGame)
 );
+
+create table xd()
+
+
