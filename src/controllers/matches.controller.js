@@ -20,9 +20,15 @@ apiController.allMatchesFromSerie = async (req, res) => {
     const seriename = req.params.seriename
     try {
         const result = await Matches.getAllMatchesFromSerie(seriename)
-        console.log(result)
         res.status(200).json(result)
 
+    } catch (error) { res.status(500).json(getJsonError(error)) }
+}
+
+apiController.getAllMatchesOfAllSeries = async(req, res) => {
+    try {
+        const result = await Matches.getAllMatchesOfAllSeries()
+        res.status(200).json(result)
     } catch (error) { res.status(500).json(getJsonError(error)) }
 }
 

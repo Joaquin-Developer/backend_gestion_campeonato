@@ -73,6 +73,10 @@ create table Game_FinalRound(
     foreign key(IdGame) references Game(IdGame)
 );
 
-create table xd()
-
+-- nombres de los equipos de la serie D
+select s.NameSerie, t.NameTeam, t.NameCoach, t.Website, t.Prefix, st.Points
+from Serie as s join Serie_Team as st on (s.IdSerie=st.IdSerie)
+join Team as t on (st.IdTeam = t.IdTeam)
+where s.NameSerie = "Grupo D"
+order by st.PositionInGroup asc
 
